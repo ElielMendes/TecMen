@@ -1,0 +1,75 @@
+<html>
+
+<head>
+<meta charset="UTF-8">
+
+
+<body>
+  <script>
+
+    function enviaMsg() {
+      const xhttp = new XMLHttpRequest();
+    
+      xhttp.onreadystatechange = function() {
+        console.log("readyState:" + this.readyState);
+      console.log("status:" + this.status);
+    
+        if (this.readyState == 4 && this.status == 200) {
+          imprimeResposta(this);
+        }
+      };
+    
+      xhttp.onload = function() {
+        document.getElementById("resposta").innerHTML = this.responseText;
+      };
+    
+      document.getElementById("saida").innerHTML = "mensagem enviada";
+      var data = {
+      "nome_produto":document.getElementById("nome_produto").value,
+      "descricao":document.getElementById("descricao").value,
+      "lance_minimo":document.getElementById("lance_minimo").value};
+    
+
+      var jsondata = JSON.stringify(data);
+      var url = "https://dh2d6027ri.execute-api.us-east-1.amazonaws.com/cadastroproduto";
+      xhttp.open("POST", url);
+      xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+      xhttp.send(jsondata);
+    }
+    
+    function imprimeResposta(xml) {
+      var xmlDoc = xml.responseXML;
+      document.getElementById("resposta").innerHTML = xmlDoc;
+    }
+    </script>
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLgZMszDYinCg2ij5RCEyFrffQzf5khu6IXg&usqp=CAU">
+
+  <h1> Cadastre o Produto </h1>
+  <form>
+    <label for="nome_produto">Nome do Produto</label>:
+    <input type="text" name="nome" id="nome_produto" required maxlength="15"><br />
+    <label for="descricao">Descrição</label>:
+    <input type="text" name="nome" id="descricao" required maxlength="15"><br />
+    <label for="lance_minimo">Lance Mínimo em Reais</label>:
+    <input type="number" name="numero" id="lance_minimo" min="2"><br />
+    
+  </form>
+
+
+  <button type="button" onclick="enviaMsg()">Enviar</button>
+
+  <p id="saida">Pressione "Enviar" e depois Finalize</p>
+  
+  
+  Resposta:
+  <br>
+  <span id="resposta">---------</span>
+  <br><br>
+  <form action="pagina3.html">   
+  <button type="submit">Finalizar</button>
+
+  
+</body>
+</head>
+
+</html>
