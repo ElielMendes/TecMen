@@ -1,0 +1,75 @@
+<html>
+<head>
+<meta charset="UTF-8">
+<body>
+  <script>
+
+    function enviaMsg() {
+      const xhttp = new XMLHttpRequest();
+    
+      xhttp.onreadystatechange = function() {
+        console.log("readyState:" + this.readyState);
+      console.log("status:" + this.status);
+    
+        if (this.readyState == 4 && this.status == 200) {
+          imprimeResposta(this);
+        }
+      };
+    
+      xhttp.onload = function() {
+        document.getElementById("resposta").innerHTML = this.responseText;
+      };
+    
+      document.getElementById("saida").innerHTML = "mensagem enviada";
+      var data = {
+      "nome":document.getElementById("nome").value,
+      "produto":document.getElementById("produto").value,
+      "lance":document.getElementById("lance").value};
+    
+
+      var jsondata = JSON.stringify(data);
+      var url = "https://mffdy1pwnh.execute-api.us-east-1.amazonaws.com/lance";
+      xhttp.open("POST", url);
+      xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+      xhttp.send(jsondata);
+    }
+    
+    function imprimeResposta(xml) {
+      var xmlDoc = xml.responseXML;
+      document.getElementById("resposta").innerHTML = xmlDoc;
+    }
+    </script>
+
+<img src="https://serasa.certificadodigital.com.br/wp-content/uploads/2017/04/Leilao-IR_592x240.jpg">
+
+<h1>Escolha o Produto e dê o Lance</h1>
+
+<br>
+<form>
+  <label for="nome">Nome</label>:
+  <input type="text" name="nome" id="nome" required maxlength="10"><br />
+  
+  <label for="produto">Produto Desejado</label>:
+  <input type="text" name="produto" id="produto"><br />
+ 
+  <label for="lance">Lance em R$</label>:
+  <input type="number" name="lance" id="lance" min="2"><br />
+  
+  </form>
+
+<button type="button" onclick="enviaMsg()">Enviar</button>
+
+<p id="saida">Pressione "Enviar" e depois Finalize</p>
+  
+  
+Resposta:
+<br>
+<span id="resposta">---------</span>
+<br><br>
+<form action="pagina3.html">   
+<button type="submit">Finalizar</button>
+</form>
+</body>
+</head>
+  
+</html>
